@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load blog_tags %}
+
+{% block title %}Django For All | Connect{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <br><br><br>
+    <h1 class="text-center text-bg-dark">Connect <i class="fa-solid fa-bell-concierge"></i></h1>
+    <hr style="border: 1px solid #0e0c0c; margin: 20px 0;">
+    <br><br>
+    <div class="row justify-content-center">
+        {% for x in connect %}
+        <div class="col-md-12 mb-4"> <!-- Full width column -->
+            <div class="card bg-light shadow-sm connect-card">
+                {% if x.image %}
+                <div class="text-center">
+                    <img src="{{ x.image.url }}" alt="{{ x.header }}" class="card-logo">
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title text-black"><b>{{ x.header }}</b></h2>
+                    <hr style="border: 1px solid #0e0c0c; margin: 20px 0;">
+                    <p class="card-text">
+                        {{ x.content|markdown }}
+                    </p>
+                    <a href="{{ x.URL }}" target="_blank" style="text-decoration: none; color: #0096FF;">
+                        {{ x.header }} 
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+<style>
+.connect-card {
+    max-width: 100%; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    background: #ffffff; 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.connect-card:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 25px rgba(0, 0, 0, 0.2);
+}
+
+.card-logo {
+    height: 85px;      /* Fixed height */
+    width: 85px;       /* Fixed width */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    margin: 0 auto;    /* Center the image horizontally */
+    display: block;    /* Display as block to apply margin auto */
+    border-radius: 50%; /* Optional: Make the image circular */
+}
+
+.connect-card .card-body {
+    text-align: center;
+}
+
+.connect-card .btn {
+    width: 100%;
+    margin-top: 10px;
+}
+</style>

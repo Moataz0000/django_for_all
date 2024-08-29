@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Django For All | About{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <br>
+        <h1 class="text-center text-bg-dark">About <i class="fa-solid fa-circle-info"></i></h1>
+        <hr style="border: 1px solid #0e0c0c; margin: 20px 0;">
+        
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 mb-4">
+            <div class="bg-light shadow-sm p-4 rounded">
+                <p class="lead">
+                    Hi, I'm Moataz! 👋
+                </p>
+                <p>
+                    I'm a freelancer specializing in Django and Python web development. With a degree in Information Systems, I have a strong foundation in building and optimizing web applications. 🚀
+                </p>
+                <p>
+                    My passion for programming drives me to create innovative solutions and tackle complex challenges. Whether I'm working on custom projects or enhancing existing systems, I am dedicated to delivering high-quality results.
+                </p>
+                <p>
+                    In addition to my work, I enjoy creating educational content through Udemy courses, YouTube videos, blogging, and coaching. 💻
+                </p>
+                <p>
+                    Outside of my professional life, I love reading, rowing, drawing, and exploring new hobbies. If you have any projects or ideas you'd like to discuss, feel free to reach out!
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<style>
+/* Custom styles for the About page */
+body {
+    background-color: #f8f9fa; /* Light background color for the whole page */
+}
+
+h1.text-bg-dark {
+    background-color: #343a40; /* Dark background color for the heading */
+    color: #ffffff; /* White text color for better contrast */
+    padding: 10px; /* Padding around the text */
+    border-radius: 8px; /* Rounded corners for the heading */
+}
+
+hr {
+    border: 1px solid #0e0c0c; /* Dark border color for the separator line */
+}
+
+.bg-light {
+    background-color: #ffffff; /* White background for the content box */
+}
+
+.shadow-sm {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for the card */
+}
+
+.rounded {
+    border-radius: 8px; /* Rounded corners for the card */
+}
+
+.lead {
+    font-size: 1.25rem; /* Larger font size for introductory text */
+}
+
+@media (max-width: 767px) {
+    .text-bg-dark {
+        font-size: 2.5rem; /* Responsive font size for smaller screens */
+    }
+}
+
+@media (max-width: 575px) {
+    .lead {
+        font-size: 1.1rem; /* Responsive font size for extra small screens */
+    }
+}
+</style>

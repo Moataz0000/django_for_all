@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load blog_tags %}
+
+{% block title %}Django For All | Services{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <br><br><br><h1 class="text-center text-bg-dark ">Services <i class="fa-solid fa-bell-concierge"></i></h1><hr style="border: 1px solid #0e0c0c; margin: 20px 0;"><br><br>
+    <div class="row justify-content-center">
+        {% for x in service %}
+        <div class="col-md-6 mb-4">
+            <div class="card bg-light shadow-sm service-card">
+                <div class="card-body">
+                    <h4 class="card-title">{{x.title}}</h4>
+                    <hr style="border: 1px solid #0e0c0c; margin: 20px 0;">
+                    <p class="card-text">
+                        {{x.descreption|markdown}}
+                    </p>
+                    <a href="{{x.form_link}}" class="btn btn-outline-primary" target="_blank">order <i class="fa-solid fa-cart-shopping"></i></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+<style>
+.service-card {
+    max-width: 100%; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    background: #ffffff; 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;/* Animation for hover effects */
+}
+
+.service-card:hover {
+    transform: scale(1.05); 
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5), 0 0 25px rgba(0, 0, 0, 0.2); /* Increased shadow for emphasis on hover */
+}
+
+.service-card img {
+    height: 200px; /* Fixed height for the image */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+    width: 100%; /* Full width of the card */
+}
+
+.service-card .card-body {
+    text-align: center; /* Center align text in the card */
+}
+
+.service-card .btn {
+    width: 100%; /* Full width button */
+    margin-top: 10px; /* Space above the button */
+}
+</style>

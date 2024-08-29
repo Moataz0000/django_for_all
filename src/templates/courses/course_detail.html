@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load blog_tags %}
+{% load static %}
+{% block title %} {{ course.title }} {% endblock %}
+
+{% block content %}
+<style>
+    .post-container {
+        margin: 20px auto;
+        padding: 20px;
+        max-width: 1000px; /* Increased width */
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-image {
+        display: block;
+        max-width: 90%; /* Adjust width as needed */
+        max-height: 500px; /* Limit the height */
+        margin: 20px auto; /* Center the image and add margin around */
+        object-fit: contain; /* Ensure the whole image is visible */
+        border-radius: 8px;
+    }
+
+    .post-title {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        font-weight: bold;
+        text-align: center; /* Center the title */
+    }
+
+    .post-date {
+        font-size: 1rem;
+        color: #888;
+        margin-bottom: 20px;
+        font-style: italic;
+        text-align: center; /* Center the date */
+    }
+
+    .post-content {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    .post-container a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .post-container a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 767px) {
+        .post-title {
+            font-size: 1.5rem;
+        }
+
+        .post-content {
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="post-container">
+        <h1 class="post-title">{{ course.title }}</h1>
+        <small class="text-muted d-block text-center">{{ course.publish|date:"d M Y" }}</small>
+
+        <hr style="border: 1px solid #0e0c0c; margin: 20px 0;">
+
+        {% if course.image %}
+            <img src="{{ course.image.url }}" alt="{{ course.title }}" class="post-image">
+        {% endif %}
+        
+        <div class="post-content">
+            {{ course.content|markdown }}
+        </div>
+        <a href="{{ course.link }}" class="btn btn-outline-primary" target="_blank" style="text-decoration: none; color: #ffffff;">
+            View Content <i class="fa-brands fa-youtube"></i>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

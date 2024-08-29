@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load blog_tags %}
+
+{% block title %}Django For All | Courses {% endblock %}
+
+<style>
+.course-card {
+    max-width: 20rem;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin: 0 auto; /* Center the card horizontally */
+}
+
+.course-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.course-card img {
+    height: 150px;
+    object-fit: cover;
+    width: 100%; /* Ensure the image covers the entire width */
+}
+
+.course-card .card-body {
+    text-align: center;
+}
+
+.course-card .btn {
+    width: 80%; /* Reduced width for better alignment */
+    margin: 10px auto 0; /* Center the button */
+    display: block;
+}
+</style>
+
+{% block content %}
+
+<div class="container mt-5">
+    <br><h1 class="text-center text-bg-dark">Courses <i class="fa-solid fa-laptop-code"></i></h1><hr style="border: 1px solid #0e0c0c; margin: 20px 0;"><br><br>
+
+    <div class="row justify-content-center">
+        {% for course in courses %}
+        <div class="col-md-5 mb-4">
+            <div class="card shadow-sm course-card">
+                <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}">
+                <div class="card-header">{{ course.title }}</div>
+                <div class="card-body">
+                    <h4 class="card-title">{{ course.title }}</h4>
+                    <p class="card-text">{{ course.content|truncatewords:20 }}</p>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ course.link }}" class="btn btn-outline-primary" target="_blank">
+                            View Content <i class="fa-regular fa-eye"></i>
+                        </a>
+                        <a href="{{ course.get_course_url }}" class="btn btn-outline-dark">
+                            Learn More <i class="fa-brands fa-readme"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load blog_tags %}
+{% block title %} Django for All | Search Results {% endblock %}
+
+{% block content %}
+<style>
+    .search-form {
+        margin-bottom: 20px;
+    }
+
+    .search-results {
+        padding: 20px;
+    }
+
+    .search-results .result-item {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+    }
+
+    .search-results .result-item h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .search-results .result-item p {
+        color: #555;
+    }
+
+    .search-results .result-item .btn {
+        margin-top: 10px;
+    }
+</style>
+
+<div class="container mt-5">
+    <h1 class="text-center">Search Results <i class="fa-solid fa-search"></i></h1>
+    <hr style="border: 1px solid #0e0c0c; margin: 20px 0;">
+
+    <!-- Search Form -->
+    <form class="search-form d-flex justify-content-center" method="get" action="{% url 'blog:search' %}">
+        <input type="text" name="query" class="form-control form-control-lg" placeholder="Search..." value="{{ query }}">
+        <button class="btn btn-primary ms-2" type="submit">Search </button>
+    </form>
+
+    <!-- Display Search Results -->
+    <div class="search-results">
+      
+        {% if results %}
+        <div class="alert alert-success" role="alert">
+            <h3 class="text-center text-light">
+                {% with results.count as total_results %}
+                Found <b>{{ total_results }} </b> result for "{{query}}" 😃
+                {% endwith %}
+            </h3>
+        </div>
+            {% for post in results %}
+                <div class="result-item">
+                    <h2><a href="{{ post.get_post_url }}" style="text-decoration: none;">{{ post.title }}</a></h2>
+                    <p>{{ post.content|truncatewords:30|markdown }}</p>
+                    <a href="{{ post.get_post_url }}" class="btn btn-outline-dark">Read More <i class="fa-regular fa-eye"></i></a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+                <h3 class="text-center text-light">No results found for "{{ query }}" 😔</h3>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

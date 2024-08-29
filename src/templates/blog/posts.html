@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load blog_tags %}
+{% load static %}
+{% block title %} Django for all | Blog {% endblock %}
+
+{% block content %}
+<style>
+    /* Smaller card and text styles */
+    .form-layout {
+        padding: 20px;
+        border-radius: 8px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 900px;
+    }
+
+    .post-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+    .post-tags .badge {
+        font-size: 0.8rem;
+        margin-right: 8px;
+    }
+
+    .post-body {
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 12px;
+    }
+
+    .tag-message {
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .tag-message hr {
+        max-width: 200px;
+        border: 1px solid #ddd;
+        margin: 10px auto;
+    }
+
+    .modal-content {
+        border-radius: 8px;
+    }
+
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .modal-body .btn {
+        margin: 5px;
+    }
+
+    @media (max-width: 767px) {
+        .form-layout {
+            padding: 15px;
+            margin: 0;
+            max-width: 100%;
+        }
+
+        .post-title {
+            font-size: 1.1rem;
+        }
+
+        .post-body {
+            font-size: 0.85rem;
+        }
+    }
+</style>
+
+<div class="container mt-5 ">
+    {% if tag %}
+        <div class="tag-message alert alert-primary" role="alert">
+            <h3 style="color: white;"> Posts tagged with "{{ tag.name }}"</h3>
+            <hr>
+        </div>
+    {% endif %}
+    <br><h1 class="text-center text-bg-dark ">Blog <i class="fa-solid fa-blog"></i></h1><hr style="border: 1px solid #0e0c0c; margin: 20px 0;"><br><br>
+
+    <div class="row justify-content-center">
+        {% for post in posts %}
+        <div class="col-12 mb-4">
+            <div class="bg-light shadow-md form-layout">
+                <div class="row">
+                    <div class="col-12 col-md-4 mb-4 mb-md-0">
+                        <img src="{{ post.image.url }}" class="img-fluid rounded" alt="{{ post.title }}">
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <a href="{{ post.get_post_url }}" style="text-decoration: none;"><h2 class="post-title">{{ post.title }}</h2></a>
+                        <p class="post-tags mb-2">
+                            {% for tag in post.tags.all %}
+                                <a href="{% url 'blog:posts_by_tag' tag.slug %}"><span class="badge bg-primary">#{{ tag.name }}</span></a>
+                            {% endfor %}
+                        </p>
+                        <p class="post-body">{{ post.content|truncatewords:30|markdown }}</p>
+                        <div class="d-flex align-items-center justify-content-between mt-3">
+                            <a href="{{ post.get_post_url }}" class="btn btn-outline-dark">Read More <i class="fa-regular fa-eye"></i></a>
+                            <div class="button-container">
+                                <button type="button" class="btn btn-outline-primary ms-2" style="text-align: left;" data-bs-toggle="modal" data-bs-target="#shareModal" data-post-url="{{ post.get_full_url }}">Share <i class="fa-solid fa-share"></i></button>
+                            </div>
+                                                        <small class="text-muted ms-3">{{ post.publish|date:"d M Y" }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No posts available.</p>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal for sharing -->
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="shareModalLabel">Share This Post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Copy the link below to share:</p>
+                <input type="text" class="form-control" id="postUrl" readonly>
+                <button class="btn btn-success mt-3" onclick="copyPostUrl()">Copy Link <i class="fa-solid fa-copy"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+document.addEventListener('shown.bs.modal', function (event) {
+    var button = event.relatedTarget; // Button that triggered the modal
+    var postUrl = button.getAttribute('data-post-url'); // Extract URL from data attribute
+    var modalInput = document.getElementById('postUrl');
+    modalInput.value = postUrl;
+});
+
+function copyPostUrl() {
+    var url = document.getElementById('postUrl').value;
+    navigator.clipboard.writeText(url).then(function() {
+        alert('Post URL copied to clipboard! 😍');
+    }, function(err) {
+        alert('Failed to copy URL. Please try again.');
+    });
+}
+
+</script>
+
+{% endblock %}
