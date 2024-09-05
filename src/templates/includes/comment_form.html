@@ -1,0 +1,12 @@
+<hr style="border: 1px solid #000; margin: 20px 0;">
+<br>
+{% load crispy_forms_tags %}
+
+
+<div>
+    <form action="{% url 'blog:post_comment' post.slug %}" method="post">
+{% csrf_token %}
+        {{form|crispy}}<br>
+        <p><button type="submit" class="btn btn-outline-dark hover:bg-white">Add Comment <i class="fa-solid fa-comment"></i></button></p>
+    </form>
+</div>

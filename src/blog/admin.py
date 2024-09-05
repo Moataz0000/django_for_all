@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post
+from .models import Post, Comment
 from unfold.admin import ModelAdmin
 
 
@@ -10,3 +10,12 @@ class  PostAdmin(ModelAdmin):
     date_hierarchy = 'publish'
     ordering = ['status', 'publish']
     readonly_fields = ['slug']
+
+
+
+
+@admin.register(Comment)
+class CommentAdmin(ModelAdmin):
+    list_display = ['name', 'email', 'post', 'created', 'active']
+    list_filter = ['active', 'created', 'updated']
+    search_fields = ['name', 'email', 'body']    
