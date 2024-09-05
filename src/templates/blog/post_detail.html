@@ -8,7 +8,7 @@
     .post-container {
         margin: 20px auto;
         padding: 20px;
-        max-width: 1000px; /* Increased width */
+        max-width: 1000px;
         border: 1px solid #ddd;
         border-radius: 8px;
         background-color: #f9f9f9;
@@ -17,10 +17,10 @@
 
     .post-image {
         display: block;
-        max-width: 90%; /* Adjust width as needed */
-        max-height: 500px; /* Limit the height */
-        margin: 20px auto; /* Center the image and add margin around */
-        object-fit: contain; /* Ensure the whole image is visible */
+        max-width: 100%;
+        max-height: 500px;
+        margin: 20px auto;
+        object-fit: contain;
         border-radius: 8px;
     }
 
@@ -28,7 +28,7 @@
         font-size: 2rem;
         margin-bottom: 10px;
         font-weight: bold;
-        text-align: center; /* Center the title */
+        text-align: center;
     }
 
     .post-date {
@@ -36,7 +36,7 @@
         color: #888;
         margin-bottom: 20px;
         font-style: italic;
-        text-align: center; /* Center the date */
+        text-align: center;
     }
 
     .post-content {
@@ -54,14 +54,45 @@
         text-decoration: underline;
     }
 
+    /* Responsive adjustments */
+    @media (max-width: 1200px) {
+        .post-container {
+            max-width: 90%;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .post-title {
+            font-size: 1.8rem;
+        }
+        .post-content {
+            font-size: 1rem;
+        }
+    }
+
     @media (max-width: 767px) {
+        .post-container {
+            padding: 15px;
+        }
         .post-title {
             font-size: 1.5rem;
         }
-
         .post-content {
             font-size: 0.9rem;
         }
+    }
+
+    @media (max-width: 575px) {
+        .post-title {
+            font-size: 1.2rem;
+        }
+        .post-content {
+            font-size: 0.85rem;
+        }
+    }
+
+    .hidden {
+        display: none;
     }
 </style>
 
@@ -79,7 +110,49 @@
         <div class="post-content">
             {{ post.content|markdown }}
         </div>
+        <hr style="border: 1px solid #000; margin: 20px 0;">
+
+        {% with comments.count as total_comments %}
+            <h2>{{ total_comments }} comment{{ total_comments|pluralize }}  <i class="fa-solid fa-comment"></i></h2>
+        {% endwith %}
+    
+        <div id="comments-list">
+            {% for comment in comments %}
+                <div class="alert alert-dismissible alert-secondary {% if forloop.counter > 3 %}hidden{% endif %}">
+                    <p class="info">
+                        Comment {{ forloop.counter }} by {{ comment.name }} | <i class="fa-solid fa-clock"></i> {{ comment.created|date:"d M Y" }}
+                    </p>
+                    {{ comment.body|linebreaks }}
+                </div>
+            {% empty %}
+                <div class="alert alert-warning d-inline-block" role="alert" style="padding: 5px 10px;">
+                    <p style="margin: 0; "> There are no comments.😊</p>
+                </div>
+            {% endfor %}
+        </div>
+    
+        {% if comments.count > 3 %}
+            <button id="show-more-comments" class="btn btn-outline-primary mt-3">See More <i class="fa-regular fa-eye"></i></button>
+        {% endif %}
+    
+        {% include "includes/comment_form.html" %}
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const showMoreButton = document.getElementById('show-more-comments');
+        const hiddenComments = document.querySelectorAll('.hidden');
+
+        if (showMoreButton) {
+            showMoreButton.addEventListener('click', function() {
+                hiddenComments.forEach(function(comment) {
+                    comment.classList.remove('hidden');
+                });
+                showMoreButton.style.display = 'none';
+            });
+        }
+    });
+</script>
 
 {% endblock %}
